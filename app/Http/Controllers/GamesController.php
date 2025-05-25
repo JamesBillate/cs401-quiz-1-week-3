@@ -19,6 +19,8 @@ class GamesController extends Controller
     public function index()
     {
         //Step 3. Your code here
+        return view('games.index', ['games' => $this->game_list]);
+        # calling the protected variable, where value is assigned within __construct()
     }
 
     /**
@@ -28,18 +30,20 @@ class GamesController extends Controller
     {
         //Step 4.
         $results = array_filter($this->game_list, function ($game) use ($id) {
-            return $game['id'] != $id;
+            return $game['id'] == $id;
+            # just changed != to ==
         });
-        return view('games.show', ['games' => $results]);
+        return view('games.index', ['games' => $results]);
+        # changed view to index
     }
 
     /**
      * Remove the specified resource from storage.
-     */
+      */
     public function destroy(string $id)
     {
         $results = array_filter($this->game_list, function ($game) use ($id) {
-            return $game['id'] == $id;
+            return $game['id'] != $id;
         });
         return response()->json([
             'message' => 'Record Successfull Deleted.',
